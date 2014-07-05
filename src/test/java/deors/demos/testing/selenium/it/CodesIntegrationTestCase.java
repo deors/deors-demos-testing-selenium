@@ -156,8 +156,16 @@ public class CodesIntegrationTestCase {
 
         Assume.assumeTrue(RUN_HTMLUNIT);
 
-        WebDriver driver = new HtmlUnitDriver();
-        testCodesCrud(driver, TARGET_SERVER_URL);
+        WebDriver driver = null;
+        try {
+            driver = new HtmlUnitDriver();
+            testCodesCrud(driver, TARGET_SERVER_URL);
+            testCodesError500DuplicateKey(driver, TARGET_SERVER_URL);
+        } finally {
+            if (driver != null) {
+                driver.quit();
+            }
+        }
     }
 
     @Test
@@ -166,9 +174,17 @@ public class CodesIntegrationTestCase {
 
         Assume.assumeTrue(RUN_IE);
 
-        DesiredCapabilities browser = DesiredCapabilities.internetExplorer();
-        WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
-        testCodesCrud(driver, TARGET_SERVER_URL);
+        WebDriver driver = null;
+        try {
+            DesiredCapabilities browser = DesiredCapabilities.internetExplorer();
+            driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
+            testCodesCrud(driver, TARGET_SERVER_URL);
+            testCodesError500DuplicateKey(driver, TARGET_SERVER_URL);
+        } finally {
+            if (driver != null) {
+                driver.quit();
+            }
+        }
     }
 
     @Test
@@ -177,9 +193,17 @@ public class CodesIntegrationTestCase {
 
         Assume.assumeTrue(RUN_FIREFOX);
 
-        DesiredCapabilities browser = DesiredCapabilities.firefox();
-        WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
-        testCodesCrud(driver, TARGET_SERVER_URL);
+        WebDriver driver = null;
+        try {
+            DesiredCapabilities browser = DesiredCapabilities.firefox();
+            driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
+            testCodesCrud(driver, TARGET_SERVER_URL);
+            testCodesError500DuplicateKey(driver, TARGET_SERVER_URL);
+        } finally {
+            if (driver != null) {
+                driver.quit();
+            }
+        }
     }
 
     @Test
@@ -188,9 +212,17 @@ public class CodesIntegrationTestCase {
 
         Assume.assumeTrue(RUN_CHROME);
 
-        DesiredCapabilities browser = DesiredCapabilities.chrome();
-        WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
-        testCodesCrud(driver, TARGET_SERVER_URL);
+        WebDriver driver = null;
+        try {
+            DesiredCapabilities browser = DesiredCapabilities.chrome();
+            driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
+            testCodesCrud(driver, TARGET_SERVER_URL);
+            testCodesError500DuplicateKey(driver, TARGET_SERVER_URL);
+        } finally {
+            if (driver != null) {
+                driver.quit();
+            }
+        }
     }
 
     @Test
@@ -199,9 +231,17 @@ public class CodesIntegrationTestCase {
 
         Assume.assumeTrue(RUN_OPERA);
 
-        DesiredCapabilities browser = DesiredCapabilities.opera();
-        WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
-        testCodesCrud(driver, TARGET_SERVER_URL);
+        WebDriver driver = null;
+        try {
+            DesiredCapabilities browser = DesiredCapabilities.opera();
+            driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
+            testCodesCrud(driver, TARGET_SERVER_URL);
+            testCodesError500DuplicateKey(driver, TARGET_SERVER_URL);
+        } finally {
+            if (driver != null) {
+                driver.quit();
+            }
+        }
     }
 
     @Test
@@ -210,157 +250,206 @@ public class CodesIntegrationTestCase {
 
         Assume.assumeTrue(RUN_ANDROID);
 
-        WebDriver driver = new AndroidDriver(new URL(SELENIUM_HUB_URL_ANDROID));
-        testCodesCrud(driver, TARGET_SERVER_URL_ANDROID);
-    }
-
-    public void testCodesCrud(final WebDriver driver, final String baseUrl) {
-
+        WebDriver driver = null;
         try {
-            // first entry to view page
-            // wait for the application to get fully loaded
-            (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-                public Boolean apply(WebDriver d) {
-                	d.get(baseUrl + "/CodesView.do");
-                    return d.getTitle().equals("Codes View Page");
-                }
-            });
-
-            // confirm initial data list
-            List<WebElement> codeElems = driver.findElements(By.name("code"));
-            List<String> codes = new ArrayList<String>();
-            for (WebElement codeElem : codeElems) {
-                codes.add(codeElem.getAttribute("value"));
-            }
-
-            assertEquals(3, codes.size());
-            assertTrue(codes.contains("A"));
-            assertTrue(codes.contains("C"));
-            assertTrue(codes.contains("D"));
-
-            // get add button
-            WebElement addForm = driver.findElement(By.name("add"));
-            WebElement addButton = addForm.findElement(By.name("add"));
-
-            // submit to add a new record
-            addButton.click();
-
-            (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-                public Boolean apply(WebDriver d) {
-                    return d.getTitle().equals("Codes Detail Page");
-                }
-            });
-
-            WebElement detailForm = driver.findElement(By.name("detail"));
-            WebElement codeField = detailForm.findElement(By.name("code"));
-            codeField.sendKeys("P");
-            WebElement valueField = detailForm.findElement(By.name("value"));
-            valueField.sendKeys("postponed");
-
-            // confirm add and return to view page
-            WebElement okButton = detailForm.findElement(By.name("ok"));
-            okButton.click();
-
-            (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-                public Boolean apply(WebDriver d) {
-                    return d.getTitle().equals("Codes View Page");
-                }
-            });
-
-            // confirm the new record has been added
-            codeElems = driver.findElements(By.name("code"));
-            codes = new ArrayList<String>();
-            for (WebElement codeElem : codeElems) {
-                codes.add(codeElem.getAttribute("value"));
-            }
-
-            assertEquals(4, codes.size());
-            assertTrue(codes.contains("P"));
-
-            List<WebElement> valueElems = driver.findElements(By.name("value"));
-            List<String> values = new ArrayList<String>();
-            for (WebElement valueElem : valueElems) {
-                values.add(valueElem.getAttribute("value"));
-            }
-
-            assertTrue(values.contains("postponed"));
-
-            WebElement pForm = driver.findElement(By.name("form_P"));
-            WebElement updateButton = pForm.findElement(By.name("update"));
-
-            // go to detail page to update record
-            updateButton.click();
-
-            (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-                public Boolean apply(WebDriver d) {
-                    return d.getTitle().equals("Codes Detail Page");
-                }
-            });
-
-            detailForm = driver.findElement(By.name("detail"));
-            valueField = detailForm.findElement(By.name("value"));
-            valueField.clear();
-            valueField.sendKeys("updated value");
-
-            // confirm add and return to view page
-            okButton = detailForm.findElement(By.name("ok"));
-            okButton.click();
-
-            (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-                public Boolean apply(WebDriver d) {
-                    return d.getTitle().equals("Codes View Page");
-                }
-            });
-
-            // confirm the record has been updated
-            valueElems = driver.findElements(By.name("value"));
-            values = new ArrayList<String>();
-            for (WebElement valueElem : valueElems) {
-                values.add(valueElem.getAttribute("value"));
-            }
-
-            assertTrue(values.contains("updated value"));
-
-            pForm = driver.findElement(By.name("form_P"));
-            WebElement deleteButton = pForm.findElement(By.name("delete"));
-
-            // go to detail page to delete record
-            deleteButton.click();
-
-            (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-                public Boolean apply(WebDriver d) {
-                    return d.getTitle().equals("Codes Detail Page");
-                }
-            });
-
-            detailForm = driver.findElement(By.name("detail"));
-            okButton = detailForm.findElement(By.name("ok"));
-
-            // confirm delete and return to view page
-            okButton.click();
-
-            (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-                public Boolean apply(WebDriver d) {
-                    return d.getTitle().equals("Codes View Page");
-                }
-            });
-
-            // confirm final data list
-            codeElems = driver.findElements(By.name("code"));
-            codes = new ArrayList<String>();
-            for (WebElement codeElem : codeElems) {
-                codes.add(codeElem.getAttribute("value"));
-            }
-
-            assertEquals(3, codes.size());
-            assertTrue(codes.contains("A"));
-            assertTrue(codes.contains("C"));
-            assertTrue(codes.contains("D"));
-
+            driver = new AndroidDriver(new URL(SELENIUM_HUB_URL_ANDROID));
+            testCodesCrud(driver, TARGET_SERVER_URL_ANDROID);
+            testCodesError500DuplicateKey(driver, TARGET_SERVER_URL);
         } finally {
             if (driver != null) {
                 driver.quit();
             }
         }
+    }
+
+    public void testCodesCrud(final WebDriver driver, final String baseUrl) {
+
+        // first entry to view page
+        // wait for the application to get fully loaded
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                d.get(baseUrl + "/CodesView.do");
+                return d.getTitle().equals("Codes View Page");
+            }
+        });
+
+        // confirm initial data list
+        List<WebElement> codeElems = driver.findElements(By.name("code"));
+        List<String> codes = new ArrayList<String>();
+        for (WebElement codeElem : codeElems) {
+            codes.add(codeElem.getAttribute("value"));
+        }
+
+        assertEquals(3, codes.size());
+        assertTrue(codes.contains("A"));
+        assertTrue(codes.contains("C"));
+        assertTrue(codes.contains("D"));
+
+        // get add button
+        WebElement addForm = driver.findElement(By.name("add"));
+        WebElement addButton = addForm.findElement(By.name("add"));
+
+        // submit to add a new record
+        addButton.click();
+
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return d.getTitle().equals("Codes Detail Page");
+            }
+        });
+
+        WebElement detailForm = driver.findElement(By.name("detail"));
+        WebElement codeField = detailForm.findElement(By.name("code"));
+        codeField.sendKeys("P");
+        WebElement valueField = detailForm.findElement(By.name("value"));
+        valueField.sendKeys("postponed");
+
+        // confirm add and return to view page
+        WebElement okButton = detailForm.findElement(By.name("ok"));
+        okButton.click();
+
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return d.getTitle().equals("Codes View Page");
+            }
+        });
+
+        // confirm the new record has been added
+        codeElems = driver.findElements(By.name("code"));
+        codes = new ArrayList<String>();
+        for (WebElement codeElem : codeElems) {
+            codes.add(codeElem.getAttribute("value"));
+        }
+
+        assertEquals(4, codes.size());
+        assertTrue(codes.contains("P"));
+
+        List<WebElement> valueElems = driver.findElements(By.name("value"));
+        List<String> values = new ArrayList<String>();
+        for (WebElement valueElem : valueElems) {
+            values.add(valueElem.getAttribute("value"));
+        }
+
+        assertTrue(values.contains("postponed"));
+
+        WebElement pForm = driver.findElement(By.name("form_P"));
+        WebElement updateButton = pForm.findElement(By.name("update"));
+
+        // go to detail page to update record
+        updateButton.click();
+
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return d.getTitle().equals("Codes Detail Page");
+            }
+        });
+
+        detailForm = driver.findElement(By.name("detail"));
+        valueField = detailForm.findElement(By.name("value"));
+        valueField.clear();
+        valueField.sendKeys("updated value");
+
+        // confirm update and return to view page
+        okButton = detailForm.findElement(By.name("ok"));
+        okButton.click();
+
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return d.getTitle().equals("Codes View Page");
+            }
+        });
+
+        // confirm the record has been updated
+        valueElems = driver.findElements(By.name("value"));
+        values = new ArrayList<String>();
+        for (WebElement valueElem : valueElems) {
+            values.add(valueElem.getAttribute("value"));
+        }
+
+        assertTrue(values.contains("updated value"));
+
+        pForm = driver.findElement(By.name("form_P"));
+        WebElement deleteButton = pForm.findElement(By.name("delete"));
+
+        // go to detail page to delete record
+        deleteButton.click();
+
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return d.getTitle().equals("Codes Detail Page");
+            }
+        });
+
+        detailForm = driver.findElement(By.name("detail"));
+        okButton = detailForm.findElement(By.name("ok"));
+
+        // confirm delete and return to view page
+        okButton.click();
+
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return d.getTitle().equals("Codes View Page");
+            }
+        });
+
+        // confirm final data list
+        codeElems = driver.findElements(By.name("code"));
+        codes = new ArrayList<String>();
+        for (WebElement codeElem : codeElems) {
+            codes.add(codeElem.getAttribute("value"));
+        }
+
+        assertEquals(3, codes.size());
+        assertTrue(codes.contains("A"));
+        assertTrue(codes.contains("C"));
+        assertTrue(codes.contains("D"));
+    }
+
+    public void testCodesError500DuplicateKey(final WebDriver driver, final String baseUrl) {
+
+        // first entry to view page
+        // wait for the application to get fully loaded
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                d.get(baseUrl + "/CodesView.do");
+                return d.getTitle().equals("Codes View Page");
+            }
+        });
+
+        // get add button
+        WebElement addForm = driver.findElement(By.name("add"));
+        WebElement addButton = addForm.findElement(By.name("add"));
+
+        // submit to add a new record
+        addButton.click();
+
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return d.getTitle().equals("Codes Detail Page");
+            }
+        });
+
+        WebElement detailForm = driver.findElement(By.name("detail"));
+        WebElement codeField = detailForm.findElement(By.name("code"));
+        codeField.sendKeys("A");
+        WebElement valueField = detailForm.findElement(By.name("value"));
+        valueField.sendKeys("active again");
+
+        // confirm add and return to view page
+        WebElement okButton = detailForm.findElement(By.name("ok"));
+        okButton.click();
+
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return d.getTitle().equals("Codes View Page");
+            }
+        });
+
+        // check for error returned
+        String viewText = driver.getPageSource();
+
+        assertTrue(viewText.contains("ERROR adding new records to Codes table"));
+        assertTrue(viewText.contains("could not insert"));
+        assertTrue(viewText.contains("entities.CodesImpl"));
     }
 }
