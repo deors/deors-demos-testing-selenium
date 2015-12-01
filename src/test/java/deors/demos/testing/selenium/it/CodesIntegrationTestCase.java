@@ -110,14 +110,14 @@ public class CodesIntegrationTestCase {
         TARGET_SERVER_URL = getConfigurationProperty(
             "TARGET_SERVER_URL",
             "test.target.server.url",
-            "http://localhost:8180/deors.demos.testing.selenium-1.0-SNAPSHOT");
+            "http://localhost:57080/deors.demos.testing.selenium");
 
         logger.info("using target server at: " + TARGET_SERVER_URL);
 
         TARGET_SERVER_URL_ANDROID = getConfigurationProperty(
             "TARGET_SERVER_URL_ANDROID",
             "test.target.server.url.android",
-            "http://localhost:8180/deors.demos.testing.selenium-1.0-SNAPSHOT");
+            "http://localhost:57080/deors.demos.testing.selenium");
 
         logger.info("using target server for Android at: " + TARGET_SERVER_URL_ANDROID);
     }
