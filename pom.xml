@@ -14,7 +14,7 @@
     <properties>
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
 
         <javaee.version>6.0</javaee.version>
         <jstl.version>1.2</jstl.version>
@@ -42,7 +42,7 @@
 
         <jacoco-listeners.version>3.5</jacoco-listeners.version>
 
-        <tomcat.version>7.0.42</tomcat.version>
+        <tomcat.version>7.0.61</tomcat.version>
         <tomcat.downloadUrl>http://archive.apache.org/dist/tomcat/tomcat-7/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.zip</tomcat.downloadUrl>
     </properties>
 
