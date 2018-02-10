@@ -315,7 +315,7 @@
                                 <deployables>
                                     <deployable>
                                         <groupId>deors.demos</groupId>
-                                        <artifactId>deors.demos.testing.selenium</artifactId>
+                                        <artifactId>deors-demos-testing-selenium</artifactId>
                                         <type>war</type>
                                     </deployable>
                                 </deployables>
@@ -352,7 +352,7 @@
                                 <deployables>
                                     <deployable>
                                         <groupId>deors.demos</groupId>
-                                        <artifactId>deors.demos.testing.selenium</artifactId>
+                                        <artifactId>deors-demos-testing-selenium</artifactId>
                                         <type>war</type>
                                     </deployable>
                                 </deployables>
@@ -396,7 +396,7 @@
                                 <deployables>
                                     <deployable>
                                         <groupId>deors.demos</groupId>
-                                        <artifactId>deors.demos.testing.selenium</artifactId>
+                                        <artifactId>deors-demos-testing-selenium</artifactId>
                                         <type>war</type>
                                     </deployable>
                                 </deployables>
