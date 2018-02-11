@@ -31,8 +31,8 @@
 
         <junit.version>4.12</junit.version>
         <easymock.version>3.4</easymock.version>
-        <selenium.version>2.53.1</selenium.version>
-        <htmlunit.version>2.23</htmlunit.version>
+        <selenium.version>3.9.1</selenium.version>
+        <htmlunit.version>2.29.0</htmlunit.version>
 
         <jacoco.version>0.8.0</jacoco.version>
         <jacoco.path>${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar</jacoco.path>
@@ -252,12 +252,12 @@
             <version>${selenium.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>net.sourceforge.htmlunit</groupId>
-            <artifactId>htmlunit</artifactId>
-            <version>${htmlunit.version}</version>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>htmlunit-driver</artifactId>
+			<version>${htmlunit.version}</version>
+			<scope>test</scope>
+		</dependency>
 
         <dependency>
             <groupId>org.jacoco</groupId>

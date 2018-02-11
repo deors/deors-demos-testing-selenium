@@ -13,10 +13,14 @@ import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.ie.InternetExplorerOptions;
+import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -131,7 +135,7 @@ public class CodesIntegrationTestCase {
 
         WebDriver driver = null;
         try {
-            driver = new HtmlUnitDriver();
+            driver = new HtmlUnitDriver(true);
             testCodesCrud(driver, TARGET_SERVER_URL);
             testCodesError500DuplicateKey(driver, TARGET_SERVER_URL);
         } finally {
@@ -150,7 +154,7 @@ public class CodesIntegrationTestCase {
 
         WebDriver driver = null;
         try {
-            DesiredCapabilities browser = DesiredCapabilities.internetExplorer();
+            Capabilities browser = new InternetExplorerOptions();
             driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
             testCodesCrud(driver, TARGET_SERVER_URL);
             testCodesError500DuplicateKey(driver, TARGET_SERVER_URL);
@@ -170,7 +174,7 @@ public class CodesIntegrationTestCase {
 
         WebDriver driver = null;
         try {
-            DesiredCapabilities browser = DesiredCapabilities.firefox();
+            Capabilities browser = new FirefoxOptions();
             driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
             testCodesCrud(driver, TARGET_SERVER_URL);
             testCodesError500DuplicateKey(driver, TARGET_SERVER_URL);
@@ -190,7 +194,7 @@ public class CodesIntegrationTestCase {
 
         WebDriver driver = null;
         try {
-            DesiredCapabilities browser = DesiredCapabilities.chrome();
+            Capabilities browser = new ChromeOptions();
             driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
             testCodesCrud(driver, TARGET_SERVER_URL);
             testCodesError500DuplicateKey(driver, TARGET_SERVER_URL);
@@ -210,7 +214,7 @@ public class CodesIntegrationTestCase {
 
         WebDriver driver = null;
         try {
-            DesiredCapabilities browser = DesiredCapabilities.operaBlink();
+            Capabilities browser = new OperaOptions();
             driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
             testCodesCrud(driver, TARGET_SERVER_URL);
             testCodesError500DuplicateKey(driver, TARGET_SERVER_URL);
