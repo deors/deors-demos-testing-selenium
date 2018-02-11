@@ -32,7 +32,6 @@
         <junit.version>4.12</junit.version>
         <easymock.version>3.4</easymock.version>
         <selenium.version>2.53.1</selenium.version>
-        <selenium-android.version>2.39.0</selenium-android.version>
         <htmlunit.version>2.23</htmlunit.version>
 
         <jacoco.version>0.8.0</jacoco.version>
@@ -253,18 +252,6 @@
             <version>${selenium.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-android-driver</artifactId>
-            <version>${selenium-android.version}</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.seleniumhq.selenium</groupId>
-                    <artifactId>selenium-remote-driver</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency> -->
         <dependency>
             <groupId>net.sourceforge.htmlunit</groupId>
             <artifactId>htmlunit</artifactId>

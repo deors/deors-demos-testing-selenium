@@ -15,7 +15,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-//import org.openqa.selenium.android.AndroidDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -38,15 +37,9 @@ public class CodesIntegrationTestCase {
 
     private static boolean RUN_OPERA;
 
-    private static boolean RUN_ANDROID;
-
     private static String SELENIUM_HUB_URL;
 
-    private static String SELENIUM_HUB_URL_ANDROID;
-
     private static String TARGET_SERVER_URL;
-
-    private static String TARGET_SERVER_URL_ANDROID;
 
     @BeforeClass
     public static void initEnvironment() {
@@ -86,13 +79,6 @@ public class CodesIntegrationTestCase {
 
         logger.info("running the tests in Opera: " + RUN_OPERA);
 
-        RUN_ANDROID = getConfigurationProperty(
-            "RUN_ANDROID",
-            "test.run.android",
-            false);
-
-        logger.info("running the tests in Android: " + RUN_ANDROID);
-
         SELENIUM_HUB_URL = getConfigurationProperty(
             "SELENIUM_HUB_URL",
             "test.selenium.hub.url",
@@ -100,26 +86,12 @@ public class CodesIntegrationTestCase {
 
         logger.info("using Selenium hub at: " + SELENIUM_HUB_URL);
 
-        SELENIUM_HUB_URL_ANDROID = getConfigurationProperty(
-            "SELENIUM_HUB_URL_ANDROID",
-            "test.selenium.hub.url.android",
-            "http://localhost:4448/wd/hub");
-
-        logger.info("using Selenium hub for Android at: " + SELENIUM_HUB_URL_ANDROID);
-
         TARGET_SERVER_URL = getConfigurationProperty(
             "TARGET_SERVER_URL",
             "test.target.server.url",
             "http://localhost:57080/deors-demos-testing-selenium");
 
         logger.info("using target server at: " + TARGET_SERVER_URL);
-
-        TARGET_SERVER_URL_ANDROID = getConfigurationProperty(
-            "TARGET_SERVER_URL_ANDROID",
-            "test.target.server.url.android",
-            "http://localhost:57080/deors-demos-testing-selenium");
-
-        logger.info("using target server for Android at: " + TARGET_SERVER_URL_ANDROID);
     }
 
     private static String getConfigurationProperty(String envKey, String sysKey, String defValue) {
@@ -247,25 +219,6 @@ public class CodesIntegrationTestCase {
                 driver.quit();
             }
         }
-    }
-
-    @Test
-    public void testAndroid()
-        throws MalformedURLException, IOException {
-
-        Assume.assumeTrue(RUN_ANDROID);
-        logger.info("running tests with Android");
-
-        /*WebDriver driver = null;
-        try {
-            driver = new AndroidDriver(new URL(SELENIUM_HUB_URL_ANDROID));
-            testCodesCrud(driver, TARGET_SERVER_URL_ANDROID);
-            testCodesError500DuplicateKey(driver, TARGET_SERVER_URL);
-        } finally {
-            if (driver != null) {
-                driver.quit();
-            }
-        }*/
     }
 
     public void testCodesCrud(final WebDriver driver, final String baseUrl) {
