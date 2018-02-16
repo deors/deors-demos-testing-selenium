@@ -22,7 +22,6 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -229,11 +228,9 @@ public class CodesIntegrationTestCase {
 
         // first entry to view page
         // wait for the application to get fully loaded
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                d.get(baseUrl + "/CodesView.do");
-                return d.getTitle().equals("Codes View Page");
-            }
+        new WebDriverWait(driver, 10).until(d -> {
+            d.get(baseUrl + "/CodesView.do");
+            return d.getTitle().equals("Codes View Page");
         });
 
         // confirm initial data list
@@ -255,11 +252,8 @@ public class CodesIntegrationTestCase {
         // submit to add a new record
         addButton.click();
 
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.getTitle().equals("Codes Detail Page");
-            }
-        });
+        new WebDriverWait(driver, 10).until(d ->
+            d.getTitle().equals("Codes Detail Page"));
 
         WebElement detailForm = driver.findElement(By.name("detail"));
         WebElement codeField = detailForm.findElement(By.name("code"));
@@ -271,11 +265,8 @@ public class CodesIntegrationTestCase {
         WebElement okButton = detailForm.findElement(By.name("ok"));
         okButton.click();
 
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.getTitle().equals("Codes View Page");
-            }
-        });
+        new WebDriverWait(driver, 10).until(d ->
+            d.getTitle().equals("Codes View Page"));
 
         // confirm the new record has been added
         codeElems = driver.findElements(By.name("code"));
@@ -301,11 +292,8 @@ public class CodesIntegrationTestCase {
         // go to detail page to update record
         updateButton.click();
 
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.getTitle().equals("Codes Detail Page");
-            }
-        });
+        new WebDriverWait(driver, 10).until(d ->
+            d.getTitle().equals("Codes Detail Page"));
 
         detailForm = driver.findElement(By.name("detail"));
         codeField = detailForm.findElement(By.name("code"));
@@ -321,11 +309,8 @@ public class CodesIntegrationTestCase {
         okButton = detailForm.findElement(By.name("ok"));
         okButton.click();
 
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.getTitle().equals("Codes View Page");
-            }
-        });
+        new WebDriverWait(driver, 10).until(d ->
+            d.getTitle().equals("Codes View Page"));
 
         // confirm the record has been updated
         valueElems = driver.findElements(By.name("value"));
@@ -342,11 +327,8 @@ public class CodesIntegrationTestCase {
         // go to detail page to delete record
         deleteButton.click();
 
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.getTitle().equals("Codes Detail Page");
-            }
-        });
+        new WebDriverWait(driver, 10).until(d ->
+            d.getTitle().equals("Codes Detail Page"));
 
         detailForm = driver.findElement(By.name("detail"));
         okButton = detailForm.findElement(By.name("ok"));
@@ -354,11 +336,8 @@ public class CodesIntegrationTestCase {
         // confirm delete and return to view page
         okButton.click();
 
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.getTitle().equals("Codes View Page");
-            }
-        });
+        new WebDriverWait(driver, 10).until(d ->
+            d.getTitle().equals("Codes View Page"));
 
         // confirm final data list
         codeElems = driver.findElements(By.name("code"));
@@ -377,11 +356,9 @@ public class CodesIntegrationTestCase {
 
         // first entry to view page
         // wait for the application to get fully loaded
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                d.get(baseUrl + "/CodesView.do");
-                return d.getTitle().equals("Codes View Page");
-            }
+        new WebDriverWait(driver, 10).until(d -> {
+            d.get(baseUrl + "/CodesView.do");
+            return d.getTitle().equals("Codes View Page");
         });
 
         // get add button
@@ -391,11 +368,8 @@ public class CodesIntegrationTestCase {
         // submit to add a new record
         addButton.click();
 
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.getTitle().equals("Codes Detail Page");
-            }
-        });
+        new WebDriverWait(driver, 10).until(d ->
+            d.getTitle().equals("Codes Detail Page"));
 
         WebElement detailForm = driver.findElement(By.name("detail"));
         WebElement codeField = detailForm.findElement(By.name("code"));
@@ -407,11 +381,8 @@ public class CodesIntegrationTestCase {
         WebElement okButton = detailForm.findElement(By.name("ok"));
         okButton.click();
 
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.getTitle().equals("Codes View Page");
-            }
-        });
+        new WebDriverWait(driver, 10).until(d ->
+            d.getTitle().equals("Codes View Page"));
 
         // check for error returned
         String viewText = driver.getPageSource();
